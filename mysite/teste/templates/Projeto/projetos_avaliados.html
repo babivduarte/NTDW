@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projetos Avaliados</title>
+</head>
+<body>
+    <h1>Avaliação de Projetos</h1>
+    <ul>
+    {% for projetoAvaliado in projetosAvaliados %}
+        <li>
+            {{projetoAvaliado.projetoEnviado}} - avaliado em: {{projetoAvaliado.dataAvaliacao}} -> NOTA {{projetoAvaliado.nota}} - {{projetoAvaliado.parecer}}
+            <br>
+            Avaliado por: {{projetoAvaliado.avaliador}}
+        </li>
+    {% endfor %}
+    </ul>
+    <br>
+    <a href="{% url 'avaliarProjeto' %}">Avaliar Projeto</a>
+</body>
+</html>

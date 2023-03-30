@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projetos</title>
+</head>
+<body>
+    <h1>Lista de Projetos Enviados</h1>
+    <ul>
+    {% for projetoEnviado in projetosEnviados %}
+        <li>
+            {{projetoEnviado.titulo}} - {{projetoEnviado.resumo}} -> enviado em: {{projetoEnviado.dataEnvio}} - {{projetoEnviado.area}}
+            <br>
+            Projeto escolhido: {{projetoEnviado.projeto}}
+        </li>
+    {% endfor %}
+    </ul>
+    <br>
+    <a href="{% url 'enviarProjeto' %}">Enviar Projeto</a>
+</body>
+</html>

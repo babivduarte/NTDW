@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cronogramas</title>
+</head>
+<body>
+    <h1>Cronogramas cadastrados</h1>
+    <ul>
+    {% for cronograma in cronogramas %}
+        <li>
+            {{cronograma.descricao}} - {{cronograma.dataInicio}} até {{cronograma.dataFim}}
+        </li>
+    {% endfor %}
+    </ul>
+    <br>
+    <a href="{% url 'novoCronograma' %}">Cadastrar Cronograma</a>
+</body>
+</html>

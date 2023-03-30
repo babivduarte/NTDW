@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Avaliadores</title>
+</head>
+<body>
+    <h1>Lista de Avaliadores</h1>
+    <ul>
+    {% for avaliador in avaliadores %}
+        <li>
+            {{avaliador.nome}} - {{avaliador.areaFormacao}} - {{avaliador.idade}} anos
+        </li>
+    {% endfor %}
+    </ul>
+    <br>
+    <a href="{% url 'novoAvaliador' %}">Novo Avaliador</a>
+</body>
+</html>
