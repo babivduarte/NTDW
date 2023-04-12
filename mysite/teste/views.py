@@ -1,9 +1,41 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import *
+from .serializer import *
+from rest_framework import viewsets
 
 # Create your views here.
+#------- APIs
+class AutorViewApi(viewsets.ModelViewSet):
+    queryset = Autor.objects.all()
+    serializer_class = AutorSerializer
 
+class CronogramaViewApi(viewsets.ModelViewSet):
+    queryset = Cronograma.objects.all()
+    serializer_class = CronogramaSerializer
+
+class AvaliadorViewApi(viewsets.ModelViewSet):
+    queryset = Avaliador.objects.all()
+    serializer_class = AvaliadorSerializer
+
+class PremioViewApi(viewsets.ModelViewSet):
+    queryset = Premio.objects.all()
+    serializer_class = PremioSerializer
+
+class ProjetoViewApi(viewsets.ModelViewSet):
+    queryset = Projeto.objects.all()
+    serializer_class = ProjetoSerializer
+
+class ProjetoEnviadoViewApi(viewsets.ModelViewSet):
+    queryset = EnviarProjeto.objects.all()
+    serializer_class = EnviarProjetoSerializer
+
+class ProjetoAvaliadoViewApi(viewsets.ModelViewSet):
+    queryset = AvaliarProjeto.objects.all()
+    serializer_class = AvaliarProjetoSerializer
+
+
+#-------listagem antiga
 def index(request):
     return HttpResponse("Hello Word")
 

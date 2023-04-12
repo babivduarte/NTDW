@@ -1,9 +1,20 @@
-from django.urls import path        #importando o módulo
-
+from django.urls import path, include        #importando o módulo
 from . import views                 #importa tudo o que tá dentro do arquivo views
+from rest_framework.routers import DefaultRouter
+from .views import *
+
+router = DefaultRouter(trailing_slash=False)
+router.register(r'cronogramas', CronogramaViewApi)
+router.register(r'autores', AutorViewApi)
+router.register(r'avaliador', AvaliadorViewApi)
+router.register(r'premios', PremioViewApi)
+router.register(r'projetos', ProjetoViewApi)
+router.register(r'projetos_enviados', ProjetoEnviadoViewApi)
+router.register(r'projetos_avaliados', ProjetoAvaliadoViewApi)
 
 urlpatterns = [
-    path('',views.index, name='index'),       #criando padrões de url
+    path('',views.index, name='index'),
+    path('apis/', include(router.urls)),
     path('novoAutor/',views.novoAutor, name='novoAutor'),
     path('autores/',views.listAutores, name='listAutores'),
     path('novoCronograma/',views.novoCronograma, name='novoCronograma'),
