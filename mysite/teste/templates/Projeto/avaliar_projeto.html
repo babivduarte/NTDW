@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Projeto</title>
+     {% load static %}
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+     {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
 </head>
 <body>
     <h2>Avaliar projeto</h2>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Salvar</button>
+        <button class="btn btn-primary" type="submit">Salvar</button>
     </form>
 </body>
 </html>
