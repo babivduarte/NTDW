@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .forms import *
 from .serializer import *
 from rest_framework import viewsets
+import coreapi
 
 # Create your views here.
 #------- APIs
@@ -35,80 +36,155 @@ class ProjetoAvaliadoViewApi(viewsets.ModelViewSet):
     serializer_class = AvaliarProjetoSerializer
 
 
-#-------listagem antiga
+#-----------------------------CRUDS-------------------------------------
 def index(request):
     return HttpResponse("Hello Word")
 
 def novoAutor(request):
-    data = {}
-    form = AutorForm(request.POST or None)
+    form = AutorForm()
+    if request.method == 'POST':
+        form = AutorForm(request.POST)
+        if form.is_valid():
+            client = coreapi.Client()
+            schema = client.get("http://127.0.0.1:8000/teste/docs")
 
-    if form.is_valid():
-        form.save()
+            action = ["autores", "create"]
+            params = {
+                "nome": form.cleaned_data['nome'],
+                "idade": form.cleaned_data['idade'],
+                "cpf": form.cleaned_data['cpf'],
+                "telefone": form.cleaned_data['telefone'],
+                "email": form.cleaned_data['email'],
+            }
+            client.action(schema, action, params=params)
         return redirect('listAutores')
-
-    data['form'] = form
-    return render(request, 'Autor/novo_autor.html', data)
+    elif request.method == 'GET':
+        return render(request, 'Autor/novo_autor.html', {'form': form})
 
 def listAutores(request):
-    data = {}
-    data['autores'] = Autor.objects.all()
-    return render(request, 'Autor/list_autores.html', data)
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs")
+
+    action = ["autores", "list"]
+    result = client.action(schema, action)
+    return render(request, 'Autor/list_autores.html', {'autores': result})
 
 def listCronogramas(request):
-    data = {}
-    data['cronogramas'] = Cronograma.objects.all()
-    return render(request, 'Cronograma/list_cronogramas.html', data)
+    # Initialize a client & load the schema document
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs")
+
+    # Interact with the API endpoint
+    action = ["cronogramas", "list"]
+    result = client.action(schema, action)
+    return render(request, 'Cronograma/list_cronogramas.html', {'cronogramas': result})
 
 def novoCronograma(request):
-    data = {}
-    form = CronogramaForm(request.POST or None)
+    form = CronogramaForm()
+    if request.method == 'POST':
+        form = CronogramaForm(request.POST)
+        if form.is_valid():
+            client = coreapi.Client()
+            schema = client.get("http://127.0.0.1:8000/teste/docs")
 
-    if form.is_valid():
-        form.save()
+            action = ["cronogramas", "create"]
+            params = {
+                "dataInicio": form.cleaned_data['dataInicio'].isoformat(),
+                "dataFim": form.cleaned_data['dataFim'].isoformat(),
+                "descricao": form.cleaned_data['descricao'],
+            }
+            client.action(schema, action, params=params)
         return redirect('listCronogramas')
-
-    data['form'] = form
-    return render(request, 'Cronograma/novo_cronograma.html', data)
+    elif request.method == 'GET':
+        return render(request, 'Cronograma/novo_cronograma.html', {'form': form})
 
 def listAvaliadores(request):
-    data = {}
-    data['avaliadores'] = Avaliador.objects.all()
-    return render(request, 'Avaliador/list_avaliadores.html', data)
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs")
+
+    action = ["avaliadores", "list"]
+    result = client.action(schema, action)
+    return render(request, 'Avaliador/list_avaliadores.html', {'avaliadores': result})
 
 def novoAvaliador(request):
-    data = {}
-    form = AvaliadorForm(request.POST or None)
+    form = AvaliadorForm()
+    if request.method == 'POST':
+        form = AvaliadorForm(request.POST)
+        if form.is_valid():
+            client = coreapi.Client()
+            schema = client.get("http://127.0.0.1:8000/teste/docs")
 
-    if form.is_valid():
-        form.save()
+            action = ["avaliadores", "create"]
+            params = {
+                "nome": form.cleaned_data['nome'],
+                "idade": form.cleaned_data['idade'],
+                "cpf": form.cleaned_data['cpf'],
+                "areaFormacao": form.cleaned_data['areaFormacao'],
+            }
+            client.action(schema, action, params=params)
         return redirect('listAvaliadores')
-
-    data['form'] = form
-    return render(request, 'Avaliador/novo_avaliador.html', data)
+    elif request.method == 'GET':
+        return render(request, 'Avaliador/novo_avaliador.html', {'form': form})
 
 def listPremios(request):
-    data = {}
-    data['premios'] = Premio.objects.all()
-    return render(request, 'Premio/list_premios.html', data)
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs")
+
+    action = ["premios", "list"]
+    result = client.action(schema, action)
+    return render(request, 'Premio/list_premios.html', {'premios': result})
 
 def novoPremio(request):
-    data = {}
-    form = PremioForm(request.POST or None)
+    form = PremioForm()
+    if request.method == 'POST':
+        form = PremioForm(request.POST)
+        if form.is_valid():
+            client = coreapi.Client()
+            schema = client.get("http://127.0.0.1:8000/teste/docs")
 
-    if form.is_valid():
-        form.save()
+            action = ["premios", "create"]
+            params = {
+                "nome": form.cleaned_data['nome'],
+                "descricao": form.cleaned_data['descricao'],
+                "ano": form.cleaned_data['ano'],
+                "cronograma_fk": form.cleaned_data['cronograma_fk'].id,
+            }
+            client.action(schema, action, params=params)
         return redirect('listPremios')
-
-    data['form'] = form
-    return render(request, 'Premio/novo_premio.html', data)
+    elif request.method == 'GET':
+        return render(request, 'Premio/novo_premio.html', {'form': form})
 
 def listProjetos(request):
-    data = {}
-    data['projetos'] = Projeto.objects.all()
-    return render(request, 'Projeto/list_projetos.html', data)
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs")
+
+    action_autores = ["autores", "list"]
+    result_autores = client.action(schema, action_autores)
+    action = ["projetos", "list"]
+    result = client.action(schema, action)
+    return render(request, 'Projeto/list_projetos.html', {'projetos': result, 'autores': result_autores})
+
 
 def novoProjeto(request):
+    form = ProjetoForm()
+    if request.method == 'POST':
+        form = ProjetoForm(request.POST)
+        if form.is_valid():
+            client = coreapi.Client()
+            schema = client.get("http://127.0.0.1:8000/teste/docs")
+
+            action = ["projetos", "create"]
+            params = {
+                "nome": form.cleaned_data['nome'],
+                "descricao": form.cleaned_data['descricao'],
+                "ano": form.cleaned_data['ano'],
+                "cronograma_fk": form.cleaned_data['cronograma_fk'].id,
+            }
+            client.action(schema, action, params=params)
+        return redirect('listPremios')
+    elif request.method == 'GET':
+        return render(request, 'Premio/novo_premio.html', {'form': form})
+
     data = {}
     form = ProjetoForm(request.POST or None)
 

@@ -1,3 +1,29 @@
-h2 {
-    color: red;
+body{
+    background-color: #EFF1F3;
+}
+
+.button-style {
+    padding: 10px 20px;
+    border-radius:100px;
+    background-color: #009FB7;
+}
+
+a {
+    text-decoration: none!important;
+    color: #fff!important;
+}
+
+a.button-style:hover{
+    background-color: #007C8F;
+}
+
+.container{
+    padding-top: 40px;
+}
+
+.container-white{
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    margin-top: 30px;
 }
