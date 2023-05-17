@@ -5,19 +5,37 @@
     <title>Cronogramas</title>
     {% load static %}
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-     {% load static %}
+    {% load static %}
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 </head>
 <body>
+<div class="container">
     <h1>Cronogramas cadastrados</h1>
-    <ul>
-    {% for cronograma in cronogramas %}
-        <li>
-            {{cronograma.descricao}} - {{cronograma.dataInicio}} até {{cronograma.dataFim}}
-        </li>
-    {% endfor %}
-    </ul>
-    <br>
-    <a href="{% url 'novoCronograma' %}">Cadastrar Cronograma</a>
+    <div class="d-flex flex-row-reverse">
+        <a href="{% url 'novoCronograma' %}" class="button-style shadow-sm">Cadastrar Cronograma</a>
+    </div>
+
+    <div class="container-white">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Descrição</th>
+                <th scope="col">Data Inicial</th>
+                <th scope="col">Data Final</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cronograma in cronogramas %}
+            <tr>
+                <td>{{cronograma.descricao}}</td>
+                <td>{{cronograma.dataInicio}}</td>
+                <td>{{cronograma.dataFim}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 </body>
 </html>

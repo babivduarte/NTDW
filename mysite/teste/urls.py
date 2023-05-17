@@ -7,7 +7,7 @@ from rest_framework.documentation import include_docs_urls
 router = DefaultRouter(trailing_slash=False)
 router.register(r'cronogramas', CronogramaViewApi)
 router.register(r'autores', AutorViewApi)
-router.register(r'avaliador', AvaliadorViewApi)
+router.register(r'avaliadores', AvaliadorViewApi)
 router.register(r'premios', PremioViewApi)
 router.register(r'projetos', ProjetoViewApi)
 router.register(r'projetos_enviados', ProjetoEnviadoViewApi)

@@ -5,19 +5,37 @@
     <title>Avaliadores</title>
     {% load static %}
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-     {% load static %}
+    {% load static %}
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 </head>
 <body>
+<div class="container">
     <h1>Lista de Avaliadores</h1>
-    <ul>
-    {% for avaliador in avaliadores %}
-        <li>
-            {{avaliador.nome}} - {{avaliador.areaFormacao}} - {{avaliador.idade}} anos
-        </li>
-    {% endfor %}
-    </ul>
-    <br>
-    <a href="{% url 'novoAvaliador' %}">Novo Avaliador</a>
+    <div class="d-flex flex-row-reverse">
+        <a href="{% url 'novoAvaliador' %}" class="button-style shadow-sm">Novo Avaliador</a>
+    </div>
+
+    <div class="container-white">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Área de Formação</th>
+                <th scope="col">Idade</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for avaliador in avaliadores %}
+            <tr>
+                <td>{{avaliador.nome}}</td>
+                <td>{{avaliador.areaFormacao}}</td>
+                <td>{{avaliador.idade}} anos</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 </body>
 </html>
