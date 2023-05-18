@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Avaliadores</title>
-    {% load static %}
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    {% load static %}
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
-</head>
-<body>
+{% extends "template.html" %}
+{% block title %}<title>Avaliadores</title>{% endblock %}
+{% block content %}
 <div class="container">
     <h1>Lista de Avaliadores</h1>
     <div class="d-flex flex-row-reverse">
@@ -36,6 +28,4 @@
         </table>
     </div>
 </div>
-
-</body>
-</html>
+{% endblock %}

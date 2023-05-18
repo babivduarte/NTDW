@@ -5,12 +5,12 @@ body{
 .button-style {
     padding: 10px 20px;
     border-radius:100px;
-    background-color: #009FB7;
+    background-color: #FED766;
 }
 
-a {
+a.button-style {
     text-decoration: none!important;
-    color: #fff!important;
+    color: #222!important;
 }
 
 a.button-style:hover{
@@ -26,4 +26,91 @@ a.button-style:hover{
     background-color: #fff;
     border-radius: 15px;
     margin-top: 30px;
+}
+
+main{
+    margin-top: 70px;
+}
+
+/* Estilos para a navbar */
+.navbar {
+    background-color: #009FB7; /* Cor de fundo da navbar */
+    padding: 10px; /* Espaçamento interno */
+    display: flex;
+}
+
+.navbar-brand {
+ margin: 0; /* Remover margens */
+ display: inline-block;
+}
+
+
+
+.container-fluid {
+ display: flex; /* Alinhar itens horizontalmente */
+ justify-content: flex-start!important; /* Alinhar itens à esquerda */
+}
+
+
+
+/* Estilos para os itens da navbar */
+.navbar-nav {
+ list-style: none; /* Remover marcadores da lista */
+ margin: 0!important; /* Remover margens */
+ padding: 0; /* Remover espaçamento interno */
+display: flex;
+}
+
+.nav-item {
+ position: relative; /* Posição relativa para itens dropdown */
+display: inline-block;
+
+}
+
+
+.nav-item > a {
+ display: block; /* Converter para elemento de bloco */
+ padding: 10px 15px; /* Espaçamento interno */
+ text-decoration: none; /* Remover sublinhado */
+ color: #000; /* Cor do texto */
+}
+
+.nav-item > a:hover {
+ background-color: #e9ecef; /* Cor de fundo ao passar o mouse */
+}
+
+ul{
+ margin: 0!important;
+list-style-type: none!important;
+}
+
+.dropdown-menu .dropdown-item {
+ list-style-type: none!important; /* Remover estilo de lista */
+}
+
+a.dropdown-item{
+text-decoration:none;
+list-style-type: none!important;
+color: #222;
+}
+
+/* Estilos para dropdowns */
+.dropdown-menu {
+ display: none; /* Ocultar dropdowns por padrão */
+ position: absolute; /* Posição absoluta */
+ top: 100%; /* Alinhar no final do item pai */
+ left: 0; /* Alinhar à esquerda */
+ background-color: #fff; /* Cor de fundo */
+ padding: 10px; /* Espaçamento interno */
+ z-index: 1; /* Elevar acima dos outros elementos */
+min-width: 142px;
+}
+
+.dropdown-menu li {
+ margin-bottom: 5px; /* Espaçamento inferior entre os itens */
+padding: 5px;
+}
+
+.dropdown:hover .dropdown-menu {
+ display: block; /* Mostrar dropdown ao passar o mouse */
 }
