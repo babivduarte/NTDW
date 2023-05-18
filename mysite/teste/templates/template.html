@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}<title>Premiação</title>{% endblock %}
+    {% load static %}
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+<header class="fixed-top">
+    <nav class="navbar bg-body-tertiary">
+        <h5 class="navbar-brand">Premiação</h5>
+        <div class="container-fluid">
+            <ul class=navbar-nav">
+                <li class="dropdown nav-item"><a href="#"><span>Cronogramas</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'listCronogramas' %}">Cronogramas</a></li>
+                        <li><a class="dropdown-item" href="{% url 'novoCronograma' %}">Novo Cronograma</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown nav-item"><a href="#"><span>Autores</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'listAutores' %}">Autores</a></li>
+                        <li><a class="dropdown-item" href="{% url 'novoAutor' %}">Novo Autor</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown nav-item"><a href="#"><span>Avaliadores</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'listAvaliadores' %}">Avaliadores</a></li>
+                        <li><a class="dropdown-item" href="{% url 'novoAvaliador' %}">Novo Avaliador</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown nav-item"><a href="#"><span>Prêmios</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'listPremios' %}">Prêmios</a></li>
+                        <li><a class="dropdown-item" href="{% url 'novoPremio' %}">Novo Prêmio</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+</body>
+</html>
