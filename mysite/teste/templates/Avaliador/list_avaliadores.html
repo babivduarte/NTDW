@@ -14,6 +14,7 @@
                 <th scope="col">Nome</th>
                 <th scope="col">Área de Formação</th>
                 <th scope="col">Idade</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -22,6 +23,9 @@
                 <td>{{avaliador.nome}}</td>
                 <td>{{avaliador.areaFormacao}}</td>
                 <td>{{avaliador.idade}} anos</td>
+                <td><a href="{% url 'deletarAvaliador' avaliador.id %}"
+                           onclick="return confirm('Deseja apagar esse avaliador?')"
+                           class="">Apagar</a></td>
             </tr>
             {% endfor %}
             </tbody>

@@ -20,15 +20,19 @@ urlpatterns = [
 
     path('novoAutor/',views.novoAutor, name='novoAutor'),
     path('autores/',views.listAutores, name='listAutores'),
+    path('deletarAutor/<int:id>', views.deleteAutor, name='deletarAutor'),
 
     path('novoCronograma/',views.novoCronograma, name='novoCronograma'),
     path('cronogramas/',views.listCronogramas, name='listCronogramas'),
+    path('deletarCronograma/<int:id>', views.deleteCronograma, name='deletarCronograma'),
 
     path('novoAvaliador/',views.novoAvaliador, name='novoAvaliador'),
     path('avaliadores/',views.listAvaliadores, name='listAvaliadores'),
+    path('deletarAvaliador/<int:id>', views.deleteAvaliador, name='deletarAvaliador'),
 
     path('novoPremio/',views.novoPremio, name='novoPremio'),
     path('premios/',views.listPremios, name='listPremios'),
+    path('deletarPremio/<int:id>', views.deletePremio, name='deletarPremio'),
 
     path('novoProjeto/',views.novoProjeto, name='novoProjeto'),
     path('projetos/',views.listProjetos, name='listProjetos'),

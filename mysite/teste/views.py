@@ -69,6 +69,17 @@ def listAutores(request):
     result = client.action(schema, action)
     return render(request, 'Autor/list_autores.html', {'autores': result})
 
+def deleteAutor(request, id):
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs/")
+
+    action = ["autores", "delete"]
+    params = {
+        "id": id,
+    }
+    result = client.action(schema, action, params=params)
+    return redirect('listAutores')
+
 def listCronogramas(request):
     # Initialize a client & load the schema document
     client = coreapi.Client()
@@ -98,6 +109,18 @@ def novoCronograma(request):
     elif request.method == 'GET':
         return render(request, 'Cronograma/novo_cronograma.html', {'form': form})
 
+def deleteCronograma(request, id):
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs/")
+
+    # Interact with the API endpoint
+    action = ["cronogramas", "delete"]
+    params = {
+        "id": id,
+    }
+    client.action(schema, action, params=params)
+    return redirect('listCronogramas')
+
 def listAvaliadores(request):
     client = coreapi.Client()
     schema = client.get("http://127.0.0.1:8000/teste/docs")
@@ -126,6 +149,17 @@ def novoAvaliador(request):
     elif request.method == 'GET':
         return render(request, 'Avaliador/novo_avaliador.html', {'form': form})
 
+def deleteAvaliador(request, id):
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs/")
+
+    action = ["avaliadores", "delete"]
+    params = {
+        "id": id,
+    }
+    result = client.action(schema, action, params=params)
+    return redirect('listAvaliadores')
+
 def listPremios(request):
     client = coreapi.Client()
     schema = client.get("http://127.0.0.1:8000/teste/docs")
@@ -153,6 +187,17 @@ def novoPremio(request):
         return redirect('listPremios')
     elif request.method == 'GET':
         return render(request, 'Premio/novo_premio.html', {'form': form})
+
+def deletePremio(request, id):
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs/")
+
+    action = ["premios", "delete"]
+    params = {
+        "id": id,
+    }
+    result = client.action(schema, action, params=params)
+    return redirect('listPremios')
 
 def listProjetos(request):
     client = coreapi.Client()
