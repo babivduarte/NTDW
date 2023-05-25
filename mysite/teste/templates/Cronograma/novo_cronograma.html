@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cronograma</title>
-    {% load static %}
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-     {% load static %}
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
-</head>
-<body>
-    <h2>Cadastrar período</h2>
+{% extends "template.html" %}
+{% block title %}<title>Novo Cronograma</title>{% endblock %}
+{% block content %}
+<div class="">
+    <h2>Editar período</h2>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Salvar</button>
     </form>
-</body>
-</html>
+</div>
+{% endblock %}

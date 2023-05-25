@@ -20,12 +20,12 @@
             <tbody>
             {% for cronograma in cronogramas %}
             <tr>
-                <td>{{cronograma.descricao}}</td>
+                <td><a href="{% url 'alterarCronograma' cronograma.id %}">{{cronograma.descricao}}</a></td>
                 <td>{{cronograma.dataInicio}}</td>
                 <td>{{cronograma.dataFim}}</td>
                 <td><a href="{% url 'deletarCronograma' cronograma.id %}"
-                           onclick="return confirm('Deseja apagar esse cronograma?')"
-                           class="">Apagar</a></td>
+                       onclick="return confirm('Deseja apagar esse cronograma?')"
+                       class="">Apagar</a></td>
             </tr>
             {% endfor %}
             </tbody>

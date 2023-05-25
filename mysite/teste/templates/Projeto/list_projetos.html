@@ -1,19 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Projetos</title>
-</head>
-<body>
+{% extends "template.html" %}
+{% block title %}<title>Novo Projeto</title>{% endblock %}
+{% block content %}
+<div class="container">
     <h1>Projetos cadastrados</h1>
-    <ul>
-    {% for projeto in projetos %}
-        <li>
-            {{projeto.nome}} - {{projeto.descricao}} - área {{projeto.areaProjeto}} - {{projeto.autores}}
-        </li>
-    {% endfor %}
-    </ul>
-    <br>
-    <a href="{% url 'novoProjeto' %}">Cadastrar Projeto</a>
-</body>
-</html>
+    <div class="d-flex flex-row-reverse">
+        <a href="{% url 'novoProjeto' %}" class="button-style shadow-sm">Cadastrar Projeto</a>
+    </div>
+
+    <div class="container-white">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Área</th>
+                <th scope="col">Autores</th>
+                <!--<th></th>-->
+            </tr>
+            </thead>
+            <tbody>
+            {% for projeto in projetos %}
+            <tr>
+                <td>{{projeto.nome}}</td>
+                <td>{{projeto.descricao}}</td>
+                <td>{{projeto.areaProjeto}}</td>
+                <td>
+                    {% for autor in autores %}
+                        <div>
+                            {{autor.nome}}
+                            </br>
+                        </div>
+                        {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

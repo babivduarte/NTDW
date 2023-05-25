@@ -20,7 +20,7 @@
             <tbody>
             {% for avaliador in avaliadores %}
             <tr>
-                <td>{{avaliador.nome}}</td>
+                <td><a href="{% url 'alterarAvaliador' avaliador.id %}">{{avaliador.nome}}</a></td>
                 <td>{{avaliador.areaFormacao}}</td>
                 <td>{{avaliador.idade}} anos</td>
                 <td><a href="{% url 'deletarAvaliador' avaliador.id %}"

@@ -76,7 +76,7 @@ display: inline-block;
 }
 
 .nav-item > a:hover {
- background-color: #e9ecef; /* Cor de fundo ao passar o mouse */
+    color: #FED148;
 }
 
 ul{

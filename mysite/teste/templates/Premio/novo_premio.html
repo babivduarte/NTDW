@@ -1,19 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Prêmio</title>
-    {% load static %}
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-     {% load static %}
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
-</head>
-<body>
+{% extends "template.html" %}
+{% block title %}<title>Novo Prêmio</title>{% endblock %}
+{% block content %}
+<div>
     <h2>Cadastrar prêmio</h2>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Salvar</button>
     </form>
-</body>
-</html>
+</div>
+
+{% endblock %}
