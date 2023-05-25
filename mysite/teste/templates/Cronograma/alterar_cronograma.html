@@ -1,0 +1,12 @@
+{% extends "template.html" %}
+{% block title %}<title>Novo Cronograma</title>{% endblock %}
+{% block content %}
+<div class="">
+    <h2>Editar período</h2>
+    <form action="{% url 'alterarCronograma' cronograma.id %}" method="POST" class="form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button>
+    </form>
+</div>
+{% endblock %}
