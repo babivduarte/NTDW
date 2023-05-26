@@ -17,6 +17,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('apis/', include(router.urls)),
     path('docs/', include_docs_urls(title='APIs')),
+    path('apisView/', views.redirectApi, name='apiView'),
 
     path('novoAutor/', views.novoAutor, name='novoAutor'),
     path('autores/', views.listAutores, name='listAutores'),
