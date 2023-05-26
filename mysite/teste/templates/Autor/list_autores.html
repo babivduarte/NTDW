@@ -25,7 +25,7 @@
                 <td>{{autor.idade}} anos</td>
                 <td><a href="{% url 'deletarAutor' autor.id %}"
                            onclick="return confirm('Deseja apagar esse Autor?')"
-                           class="">Apagar</a></td>
+                           class="button-apagar">Apagar</a></td>
             </tr>
             {% endfor %}
             </tbody>

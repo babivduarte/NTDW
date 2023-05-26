@@ -8,6 +8,22 @@ body{
     background-color: #FED766;
 }
 
+.button-apagar{
+    padding: 3px 8px;
+    border-radius: 5px;
+    background-color: #df3a3a;
+}
+
+.button-apagar:hover{
+    background-color: #c12525;
+}
+
+a.button-apagar{
+    text-decoration: none!important;
+    color: #fff!important;
+    font-size: 13px;
+}
+
 form .button-style{
     border-width: 0!important;
     float: right;

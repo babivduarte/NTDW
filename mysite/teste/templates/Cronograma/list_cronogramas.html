@@ -25,7 +25,7 @@
                 <td>{{cronograma.dataFim}}</td>
                 <td><a href="{% url 'deletarCronograma' cronograma.id %}"
                        onclick="return confirm('Deseja apagar esse cronograma?')"
-                       class="">Apagar</a></td>
+                       class="button-apagar">Apagar</a></td>
             </tr>
             {% endfor %}
             </tbody>
