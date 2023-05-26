@@ -1,13 +1,16 @@
 {% extends "template.html" %}
 {% block title %}<title>Alterar Avaliador</title>{% endblock %}
 {% block content %}
-<div>
-    <h2>Alterar Avaliador</h2>
-    <form action="{% url 'alterarAvaliador' avaliador.id %}" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Salvar</button>
-    </form>
+<div class="d-flex justify-content-center">
+    <div class="forms">
+        <h2>Alterar Avaliador</h2>
+        <form action="{% url 'alterarAvaliador' avaliador.id %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="button-style shadow-sm" type="submit">Salvar</button>
+        </form>
+    </div>
+
 </div>
 
 {% endblock %}

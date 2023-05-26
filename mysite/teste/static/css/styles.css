@@ -8,6 +8,12 @@ body{
     background-color: #FED766;
 }
 
+form .button-style{
+    border-width: 0!important;
+    float: right;
+    margin-top: 20px!important;
+}
+
 a.button-style {
     text-decoration: none!important;
     color: #222!important;
@@ -30,6 +36,30 @@ a.button-style:hover{
 
 main{
     margin-top: 70px;
+}
+
+h2{
+    margin-bottom: 30px!important;
+}
+
+.forms{
+    padding: 30px;
+    background-color: #fff;
+    min-width: 500px;
+    border-radius: 10px;
+}
+
+label{
+    width: 100%!important;
+    margin-bottom: 5px!important;
+    font-size: 14px!important;
+    font-weight: 500;
+    color: #4e7287;
+}
+
+input{
+    width: 100%!important;
+
 }
 
 /* Estilos para a navbar */
