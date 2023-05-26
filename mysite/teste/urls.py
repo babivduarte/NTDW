@@ -36,6 +36,7 @@ urlpatterns = [
     path('novoPremio/', views.novoPremio, name='novoPremio'),
     path('premios/', views.listPremios, name='listPremios'),
     path('deletarPremio/<int:id>', views.deletePremio, name='deletarPremio'),
+    path('alterarPremio/<int:id>', views.alterarPremio, name='alterarPremio'),
 
     path('novoProjeto/', views.novoProjeto, name='novoProjeto'),
     path('projetos/', views.listProjetos, name='listProjetos'),

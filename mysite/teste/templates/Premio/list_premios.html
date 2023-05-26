@@ -14,15 +14,24 @@
                 <th scope="col">Nome</th>
                 <th scope="col">Descrição</th>
                 <th scope="col">Ano</th>
+                <th scope="col">Período</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
             {% for premio in premios %}
             <tr>
-                <td>{{premio.nome}}</td>
+                <td><a href="{% url 'alterarPremio' premio.id %}">{{premio.nome}}</a></td>
                 <td>{{premio.descricao}}</td>
                 <td>{{premio.ano}}</td>
+                <td>
+                    {% for cronograma in cronogramas %}
+                        <div>
+                            {{cronograma.descricao}} - início em {{cronograma.dataInicio}} e fim em {{cronograma.dataFim}}
+                            </br>
+                        </div>
+                    {% endfor %}
+                </td>
                 <td><a href="{% url 'deletarPremio' premio.id %}"
                            onclick="return confirm('Deseja apagar esse prêmio?')"
                            class="">Apagar</a></td>

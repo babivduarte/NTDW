@@ -280,9 +280,11 @@ def listPremios(request):
     client = coreapi.Client()
     schema = client.get("http://127.0.0.1:8000/teste/docs")
 
+    action_cronogramas = ["cronogramas", "list"]
+    result_cronogramas = client.action(schema, action_cronogramas)
     action = ["premios", "list"]
     result = client.action(schema, action)
-    return render(request, 'Premio/list_premios.html', {'premios': result})
+    return render(request, 'Premio/list_premios.html', {'premios': result, 'cronogramas': result_cronogramas})
 
 
 def novoPremio(request):
@@ -298,7 +300,7 @@ def novoPremio(request):
                 "nome": form.cleaned_data['nome'],
                 "descricao": form.cleaned_data['descricao'],
                 "ano": form.cleaned_data['ano'],
-                "cronograma_fk": form.cleaned_data['cronograma_fk'].id,
+                "cronograma": form.cleaned_data['cronograma'].id,
             }
             client.action(schema, action, params=params)
         return redirect('listPremios')
@@ -311,32 +313,26 @@ def alterarPremio(request, id):
     form = PremioForm(instance=premio)
 
     if request.method == 'GET':
-        return render(request, 'Premio/alterar_premio.html',
-                      {'form': form, 'premio': premio})
+        return render(request, 'Premio/alterar_premio.html',{'form': form, 'premio': premio})
     elif request.method == 'POST':
         form = PremioForm(request.POST, instance=premio)
-        premio = form.save(commit=False)
-        premio.nome = form.cleaned_data['nome']
-        premio.idade = form.cleaned_data['idade']
-        premio.cpf = form.cleaned_data['cpf']
-        premio.areaFormacao = form.cleaned_data['areaFormacao']
-        premio.save()
+        if form.is_valid():
+            client = coreapi.Client()
+            schema = client.get("http://127.0.0.1:8000/teste/docs")
 
-        # Initialize a client & load the schema document
-        client = coreapi.Client()
-        schema = client.get("http://127.0.0.1:8000/teste/docs")
+            action = ["premios", "update"]
+            params = {
+                "id": id,
+                "nome": form.cleaned_data['nome'],
+                "descricao": form.cleaned_data['descricao'],
+                "ano": form.cleaned_data['ano'],
+                "cronograma": form.cleaned_data['cronograma'].id,
+            }
+            client.action(schema, action, params=params)
+            return redirect('listPremios')
+        elif request.method == 'GET':
+            return render(request, 'Premio/alterar_premio.html',{'form': form, 'premio': premio})
 
-        # Interact with the API endpoint
-        action = ["autores", "update"]
-        params = {
-            "id": id,
-            "nome": form.cleaned_data['nome'],
-            "descricao": form.cleaned_data['descricao'],
-            "ano": form.cleaned_data['ano'],
-            "cronograma_fk": form.cleaned_data['cronograma_fk'].id,
-        }
-        client.action(schema, action, params=params)
-        return redirect('listAvaliadores')
 
 
 def deletePremio(request, id):

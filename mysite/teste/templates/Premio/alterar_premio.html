@@ -1,9 +1,9 @@
 {% extends "template.html" %}
-{% block title %}<title>Novo Prêmio</title>{% endblock %}
+{% block title %}<title>Editar Prêmio</title>{% endblock %}
 {% block content %}
 <div>
-    <h2>Cadastrar prêmio</h2>
-    <form method="POST">
+    <h2>Alterar prêmio</h2>
+    <form action="{% url 'alterarPremio' premio.id %}" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Salvar</button>
