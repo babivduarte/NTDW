@@ -47,6 +47,9 @@ class ProjetoAvaliadoViewApi(viewsets.ModelViewSet):
 def index(request):
     return HttpResponse("Hello Word")
 
+def redirectApi(request):
+    return redirect('docs/')
+
 
 def novoAutor(request):
     form = AutorForm()
