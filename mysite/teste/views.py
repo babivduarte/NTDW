@@ -4,6 +4,7 @@ from .forms import *
 from .serializer import *
 from rest_framework import viewsets
 import coreapi
+from datetime import datetime
 
 
 # Create your views here.
@@ -47,8 +48,9 @@ class ProjetoAvaliadoViewApi(viewsets.ModelViewSet):
 def index(request):
     return HttpResponse("Hello Word")
 
+
 def redirectApi(request):
-    return redirect('docs/')
+    return redirect('/teste/docs/')
 
 
 def novoAutor(request):
@@ -137,6 +139,11 @@ def listCronogramas(request):
     # Interact with the API endpoint
     action = ["cronogramas", "list"]
     result = client.action(schema, action)
+
+    for cronograma in result:
+        cronograma['dataInicio'] = datetime.strptime(cronograma['dataInicio'], "%Y-%m-%d").strftime("%d/%m/%Y")
+        cronograma['dataFim'] = datetime.strptime(cronograma['dataFim'], "%Y-%m-%d").strftime("%d/%m/%Y")
+
     return render(request, 'Cronograma/list_cronogramas.html', {'cronogramas': result})
 
 
@@ -287,6 +294,11 @@ def listPremios(request):
     result_cronogramas = client.action(schema, action_cronogramas)
     action = ["premios", "list"]
     result = client.action(schema, action)
+
+    for cronograma in result_cronogramas:
+        cronograma['dataInicio'] = datetime.strptime(cronograma['dataInicio'], "%Y-%m-%d").strftime("%d/%m/%Y")
+        cronograma['dataFim'] = datetime.strptime(cronograma['dataFim'], "%Y-%m-%d").strftime("%d/%m/%Y")
+
     return render(request, 'Premio/list_premios.html', {'premios': result, 'cronogramas': result_cronogramas})
 
 
@@ -316,7 +328,7 @@ def alterarPremio(request, id):
     form = PremioForm(instance=premio)
 
     if request.method == 'GET':
-        return render(request, 'Premio/alterar_premio.html',{'form': form, 'premio': premio})
+        return render(request, 'Premio/alterar_premio.html', {'form': form, 'premio': premio})
     elif request.method == 'POST':
         form = PremioForm(request.POST, instance=premio)
         if form.is_valid():
@@ -334,8 +346,7 @@ def alterarPremio(request, id):
             client.action(schema, action, params=params)
             return redirect('listPremios')
         elif request.method == 'GET':
-            return render(request, 'Premio/alterar_premio.html',{'form': form, 'premio': premio})
-
+            return render(request, 'Premio/alterar_premio.html', {'form': form, 'premio': premio})
 
 
 def deletePremio(request, id):
@@ -357,8 +368,11 @@ def listProjetos(request):
     action_autores = ["autores", "list"]
     result_autores = client.action(schema, action_autores)
     action = ["projetos", "list"]
-    result = client.action(schema, action)
-    return render(request, 'Projeto/list_projetos.html', {'projetos': result, 'autores': result_autores})
+    result_projetos = client.action(schema, action)
+
+
+
+    return render(request, 'Projeto/list_projetos.html', {'projetos': result_projetos, 'autores': result_autores})
 
 
 def novoProjeto(request):
@@ -370,27 +384,52 @@ def novoProjeto(request):
             schema = client.get("http://127.0.0.1:8000/teste/docs")
 
             action = ["projetos", "create"]
+
+            #salvar autores
+            autores = []
+            for autor in form.cleaned_data['autores']:
+                autores.append(autor.id)
+
             params = {
                 "nome": form.cleaned_data['nome'],
                 "descricao": form.cleaned_data['descricao'],
-                "ano": form.cleaned_data['ano'],
-                "cronograma_fk": form.cleaned_data['cronograma_fk'].id,
+                "areaProjeto": form.cleaned_data['areaProjeto'],
+                "premio": form.cleaned_data['premio'].id,
+                "autores": autores,
             }
             client.action(schema, action, params=params)
-        return redirect('listPremios')
-    elif request.method == 'GET':
-        return render(request, 'Premio/novo_premio.html', {'form': form})
-
-    data = {}
-    form = ProjetoForm(request.POST or None)
-
-    if form.is_valid():
-        form.save()
         return redirect('listProjetos')
+    elif request.method == 'GET':
+        return render(request, 'Projeto/novo_projeto.html', {'form': form})
 
-    data['form'] = form
-    return render(request, 'Projeto/novo_projeto.html', data)
+def editarProjeto(request, id):
+    projeto = Projeto.objects.get(id=id)
+    form = ProjetoForm(instance=projeto)
+    if request.method == 'GET':
+        return render(request, 'Projeto/alterar_projeto.html', {'form': form, 'projeto': projeto})
+    elif request.method == 'POST':
+        form = ProjetoForm(request.POST, instance=projeto)
+        if form.is_valid():
+            client = coreapi.Client()
+            schema = client.get("http://127.0.0.1:8000/teste/docs")
 
+            action = ["projetos", "update"]
+            # salvar autores
+            autores = []
+            for autor in form.cleaned_data['autores']:
+                autores.append(autor.id)
+
+            params = {
+                "nome": form.cleaned_data['nome'],
+                "descricao": form.cleaned_data['descricao'],
+                "areaProjeto": form.cleaned_data['areaProjeto'],
+                "premio": form.cleaned_data['premio'].id,
+                "autores": autores,
+            }
+            client.action(schema, action, params=params)
+            return redirect('listProjetos')
+        elif request.method == 'GET':
+            return render(request, 'Projeto/novo_projeto.html', {'form': form, 'projeto': projeto})
 
 def projetosEnviados(request):
     data = {}

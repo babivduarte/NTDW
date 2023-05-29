@@ -1,5 +1,5 @@
 {% extends "template.html" %}
-{% block title %}<title>Novo Projeto</title>{% endblock %}
+{% block title %}<title>Projetos</title>{% endblock %}
 {% block content %}
 <div class="container">
     <h1>Projetos cadastrados</h1>
@@ -26,10 +26,13 @@
                 <td>{{projeto.areaProjeto}}</td>
                 <td>
                     {% for autor in autores %}
-                        <div>
-                            {{autor.nome}}
-                            </br>
-                        </div>
+                        {% for aut in projeto.autores %}
+                            {% if aut == autor.id %}
+                                <div>
+                                    {{ autor.nome }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     {% endfor %}
                 </td>
             </tr>

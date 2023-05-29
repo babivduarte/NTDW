@@ -1,6 +1,7 @@
 {% extends "template.html" %}
 {% block title %}<title>Prêmios</title>{% endblock %}
 {% block content %}
+
 <div class="container">
     <h1>Lista de Prêmios</h1>
     <div class="d-flex flex-row-reverse">
@@ -26,15 +27,17 @@
                 <td>{{premio.ano}}</td>
                 <td>
                     {% for cronograma in cronogramas %}
-                        <div>
-                            {{cronograma.descricao}} - início em {{cronograma.dataInicio}} e fim em {{cronograma.dataFim}}
+                        {% if cronograma.id == premio.cronograma %}
+                            <div>
+                                {{cronograma.descricao}}: de {{cronograma.dataInicio }} até {{cronograma.dataFim }}
                             </br>
-                        </div>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </td>
                 <td><a href="{% url 'deletarPremio' premio.id %}"
-                           onclick="return confirm('Deseja apagar esse prêmio?')"
-                           class="button-apagar">Apagar</a></td>
+                       onclick="return confirm('Deseja apagar esse prêmio?')"
+                       class="button-apagar">Apagar</a></td>
             </tr>
             {% endfor %}
             </tbody>
