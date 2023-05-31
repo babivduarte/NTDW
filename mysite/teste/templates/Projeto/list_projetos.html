@@ -15,13 +15,13 @@
                 <th scope="col">Descrição</th>
                 <th scope="col">Área</th>
                 <th scope="col">Autores</th>
-                <!--<th></th>-->
+                <th></th>
             </tr>
             </thead>
             <tbody>
             {% for projeto in projetos %}
             <tr>
-                <td>{{projeto.nome}}</td>
+                <td><a href="{% url 'alterarProjeto' projeto.id %}"> {{projeto.nome}} </a></td>
                 <td>{{projeto.descricao}}</td>
                 <td>{{projeto.areaProjeto}}</td>
                 <td>
@@ -35,6 +35,9 @@
                         {% endfor %}
                     {% endfor %}
                 </td>
+                <td><a href="{% url 'deletarProjeto' projeto.id %}"
+                       onclick="return confirm('Deseja apagar esse projeto?')"
+                       class="button-apagar">Apagar</a></td>
             </tr>
             {% endfor %}
             </tbody>

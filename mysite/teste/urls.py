@@ -41,6 +41,8 @@ urlpatterns = [
 
     path('novoProjeto/', views.novoProjeto, name='novoProjeto'),
     path('projetos/', views.listProjetos, name='listProjetos'),
+    path('alterarProjeto/<int:id>', views.alterarProjeto, name='alterarProjeto'),
+    path('deletarProjeto/<int:id>', views.deleteProjeto, name='deletarProjeto'),
 
     path('enviarProjeto/', views.enviarProjeto, name='enviarProjeto'),
     path('projetosEnviados/', views.projetosEnviados, name='projetosEnviados'),

@@ -402,7 +402,7 @@ def novoProjeto(request):
     elif request.method == 'GET':
         return render(request, 'Projeto/novo_projeto.html', {'form': form})
 
-def editarProjeto(request, id):
+def alterarProjeto(request, id):
     projeto = Projeto.objects.get(id=id)
     form = ProjetoForm(instance=projeto)
     if request.method == 'GET':
@@ -420,6 +420,7 @@ def editarProjeto(request, id):
                 autores.append(autor.id)
 
             params = {
+                "id": id,
                 "nome": form.cleaned_data['nome'],
                 "descricao": form.cleaned_data['descricao'],
                 "areaProjeto": form.cleaned_data['areaProjeto'],
@@ -430,6 +431,17 @@ def editarProjeto(request, id):
             return redirect('listProjetos')
         elif request.method == 'GET':
             return render(request, 'Projeto/novo_projeto.html', {'form': form, 'projeto': projeto})
+
+def deleteProjeto(request, id):
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs/")
+
+    action = ["projetos", "delete"]
+    params = {
+        "id": id,
+    }
+    result = client.action(schema, action, params=params)
+    return redirect('listProjetos')
 
 def projetosEnviados(request):
     data = {}
