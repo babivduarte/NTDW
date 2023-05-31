@@ -49,14 +49,9 @@ class Projeto(models.Model):
         return self.nome
 
 class EnviarProjeto(models.Model):
-    area = models.CharField(max_length=100)
-    titulo = models.CharField(max_length=100)
-    resumo = models.CharField(max_length=500)
     dataEnvio = models.DateField()
     projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.titulo
 
 class AvaliarProjeto(models.Model):
     parecer = models.CharField(max_length=100)

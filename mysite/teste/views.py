@@ -444,22 +444,66 @@ def deleteProjeto(request, id):
     return redirect('listProjetos')
 
 def projetosEnviados(request):
-    data = {}
-    data['projetosEnviados'] = EnviarProjeto.objects.all()
-    return render(request, 'Projeto/projetos_enviados.html', data)
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs")
+
+    action = ["projetos_enviados", "list"]
+    result = client.action(schema, action)
+    action = ["projetos", "list"]
+    result_projetos = client.action(schema, action)
+
+    return render(request, 'Projeto/projetos_enviados.html', {'projetosEnviados': result, 'projetos': result_projetos})
+
+    #-
+    # listagem dos dados sem o uso da API
+    # data = {}
+    #     data['projetosEnviados'] = EnviarProjeto.objects.all()
+    #     return render(request, 'Projeto/projetos_enviados.html', data)
+    # -#
 
 
 def enviarProjeto(request):
-    data = {}
-    form = EnviarProjetoForm(request.POST or None)
+    form = EnviarProjetoForm()
+    if request.method == 'POST':
+        form = ProjetoForm(request.POST)
+        if form.is_valid():
+            client = coreapi.Client()
+            schema = client.get("http://127.0.0.1:8000/teste/docs")
 
-    if form.is_valid():
-        form.save()
+            action = ["projetos_enviados", "create"]
+
+            params = {
+                "area": form.cleaned_data['area'],
+                "titulo": form.cleaned_data['titulo'],
+                "resumo": form.cleaned_data['resumo'],
+                "dataEnvio": form.cleaned_data['dataEnvio'],
+                "projeto": form.cleaned_data['projeto'],
+            }
+            client.action(schema, action, params=params)
         return redirect('projetosEnviados')
+    elif request.method == 'GET':
+        return render(request, 'Projeto/enviar_projeto.html', {'form': form})
 
-    data['form'] = form
-    return render(request, 'Projeto/enviar_projeto.html', data)
+    # data = {}
+    #     form = EnviarProjetoForm(request.POST or None)
+    #
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('projetosEnviados')
+    #
+    #     data['form'] = form
+    #     return render(request, 'Projeto/enviar_projeto.html', data)#
 
+def deleteProjetoEnviado(request, id):
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs/")
+
+    action = ["projetos_enviados", "delete"]
+    params = {
+        "id": id,
+    }
+    result = client.action(schema, action, params=params)
+    return redirect('projetosEnviados')
 
 def projetosAvaliados(request):
     data = {}

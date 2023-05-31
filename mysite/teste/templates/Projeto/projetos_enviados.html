@@ -1,21 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Projetos</title>
-</head>
-<body>
+{% extends "template.html" %}
+{% block title %}<title>Projetos Enviados</title>{% endblock %}
+{% block content %}
+<div class="container">
     <h1>Lista de Projetos Enviados</h1>
-    <ul>
-    {% for projetoEnviado in projetosEnviados %}
-        <li>
-            {{projetoEnviado.titulo}} - {{projetoEnviado.resumo}} -> enviado em: {{projetoEnviado.dataEnvio}} - {{projetoEnviado.area}}
-            <br>
-            Projeto escolhido: {{projetoEnviado.projeto}}
-        </li>
-    {% endfor %}
-    </ul>
-    <br>
-    <a href="{% url 'enviarProjeto' %}">Enviar Projeto</a>
-</body>
-</html>
+    <div class="d-flex flex-row-reverse">
+        <a href="{% url 'enviarProjeto' %}" class="button-style shadow-sm">Enviar Projeto</a>
+    </div>
+
+    <div class="container-white">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Projeto</th>
+                <th scope="col">Data Envio</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for projetoEnviado in projetosEnviados %}
+            <tr>
+                <td>
+                    {% for projeto in projetos %}
+                        {% if projeto.id == projetoEnviado.projeto %}
+                                <div>
+                                    {{ projeto.nome }}
+                                </div>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{projetoEnviado.dataEnvio}}</td>
+                <td>
+                    <a href="{% url 'deletarProjetoEnviado' projetoEnviado.id %}"
+                       onclick="return confirm('Deseja cancelar o envio?')"
+                       class="button-apagar">Apagar</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -46,6 +46,7 @@ urlpatterns = [
 
     path('enviarProjeto/', views.enviarProjeto, name='enviarProjeto'),
     path('projetosEnviados/', views.projetosEnviados, name='projetosEnviados'),
+    path('deletarProjetoEnviado/<int:id>', views.deleteProjetoEnviado, name='deletarProjetoEnviado'),
 
     path('avaliarProjeto/', views.avaliarProjeto, name='avaliarProjeto'),
     path('projetosAvaliados/', views.projetosAvaliados, name='projetosAvaliados')
