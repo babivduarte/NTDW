@@ -4,7 +4,7 @@ from .forms import *
 from .serializer import *
 from rest_framework import viewsets
 import coreapi
-from datetime import datetime
+from datetime import date, datetime
 
 
 # Create your views here.
@@ -452,6 +452,10 @@ def projetosEnviados(request):
     action = ["projetos", "list"]
     result_projetos = client.action(schema, action)
 
+    #formatar a data
+    for projeto in result:
+        projeto['dataEnvio'] = datetime.strptime(projeto['dataEnvio'], "%Y-%m-%d").strftime("%d/%m/%Y")
+
     return render(request, 'Projeto/projetos_enviados.html', {'projetosEnviados': result, 'projetos': result_projetos})
 
     #-
@@ -465,19 +469,15 @@ def projetosEnviados(request):
 def enviarProjeto(request):
     form = EnviarProjetoForm()
     if request.method == 'POST':
-        form = ProjetoForm(request.POST)
+        form = EnviarProjetoForm(request.POST)
         if form.is_valid():
             client = coreapi.Client()
             schema = client.get("http://127.0.0.1:8000/teste/docs")
 
             action = ["projetos_enviados", "create"]
-
             params = {
-                "area": form.cleaned_data['area'],
-                "titulo": form.cleaned_data['titulo'],
-                "resumo": form.cleaned_data['resumo'],
-                "dataEnvio": form.cleaned_data['dataEnvio'],
-                "projeto": form.cleaned_data['projeto'],
+                "dataEnvio": form.cleaned_data['dataEnvio'].isoformat(),
+                "projeto": form.cleaned_data['projeto'].id,
             }
             client.action(schema, action, params=params)
         return redirect('projetosEnviados')

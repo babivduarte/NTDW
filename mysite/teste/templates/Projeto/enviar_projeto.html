@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Projeto</title>
-</head>
-<body>
-    <h2>Enviar projeto</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Salvar</button>
-    </form>
-</body>
-</html>
+{% extends "template.html" %}
+{% block title %}<title>Enviar Projeto</title>{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-center">
+    <div class="forms">
+        <h2>Enviar projeto</h2>
+        <form action="{% url 'enviarProjeto' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="button-style shadow-sm" type="submit">Salvar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
