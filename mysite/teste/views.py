@@ -506,18 +506,56 @@ def deleteProjetoEnviado(request, id):
     return redirect('projetosEnviados')
 
 def projetosAvaliados(request):
-    data = {}
-    data['projetosAvaliados'] = AvaliarProjeto.objects.all()
-    return render(request, 'Projeto/projetos_avaliados.html', data)
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs")
 
+    action = ["projetos_enviados", "list"]
+    result = client.action(schema, action)
+    action = ["projetos_avaliados", "list"]
+    result_avaliados = client.action(schema, action)
+
+    # formatar a data
+    for projeto in result_avaliados:
+        projeto['dataAvaliacao'] = datetime.strptime(projeto['dataAvaliacao'], "%Y-%m-%d").strftime("%d/%m/%Y")
+
+    return render(request, 'Projeto/projetos_avaliados.html', {'projetosEnviados': result, 'projetosAvaliados': result_avaliados})
+
+def deleteProjetoAvaliado(request, id):
+    client = coreapi.Client()
+    schema = client.get("http://127.0.0.1:8000/teste/docs/")
+
+    action = ["projetos_avaliados", "delete"]
+    params = {
+        "id": id,
+    }
+    result = client.action(schema, action, params=params)
+    return redirect('projetosAvaliados')
 
 def avaliarProjeto(request):
-    data = {}
-    form = AvaliarProjetoForm(request.POST or None)
+    form = AvaliarProjetoForm()
+    if request.method == 'POST':
+        form = AvaliarProjetoForm(request.POST)
+        if form.is_valid():
+            client = coreapi.Client()
+            schema = client.get("http://127.0.0.1:8000/teste/docs")
 
-    if form.is_valid():
-        form.save()
+            # salvar avaliadores
+            avaliadores = []
+            for avaliador in form.cleaned_data['avaliador']:
+                avaliadores.append(avaliador.id)
+
+            action = ["projetos_avaliados", "create"]
+            params = {
+                "parecer": form.cleaned_data['parecer'],
+                "nota": str(form.cleaned_data['nota']),
+                "dataAvaliacao": form.cleaned_data['dataAvaliacao'].isoformat(),
+                "projetoEnviado": form.cleaned_data['projetoEnviado'].id,
+                "avaliador": avaliadores,
+            }
+            client.action(schema, action, params=params)
         return redirect('projetosAvaliados')
+    elif request.method == 'GET':
+        return render(request, 'Projeto/avaliar_projeto.html', {'form': form})
 
-    data['form'] = form
-    return render(request, 'Projeto/avaliar_projeto.html', data)
+
+

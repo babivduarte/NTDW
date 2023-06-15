@@ -1,21 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Projetos Avaliados</title>
-</head>
-<body>
-    <h1>Avaliação de Projetos</h1>
-    <ul>
-    {% for projetoAvaliado in projetosAvaliados %}
-        <li>
-            {{projetoAvaliado.projetoEnviado}} - avaliado em: {{projetoAvaliado.dataAvaliacao}} -> NOTA {{projetoAvaliado.nota}} - {{projetoAvaliado.parecer}}
-            <br>
-            Avaliado por: {{projetoAvaliado.avaliador}}
-        </li>
-    {% endfor %}
-    </ul>
-    <br>
-    <a href="{% url 'avaliarProjeto' %}">Avaliar Projeto</a>
-</body>
-</html>
+{% extends "template.html" %}
+{% block title %}<title>Projetos Avaliados</title>{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Ranking</h1>
+    <div class="d-flex flex-row-reverse">
+        <a href="{% url 'avaliarProjeto' %}" class="button-style shadow-sm">Avaliação</a>
+    </div>
+
+    <div class="container-white">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Projeto</th>
+                <th scope="col">Data Envio</th>
+                <th scope="col">Nota</th>
+                <th scope="col">Avaliador</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for projetoAvaliado in projetosAvaliados %}
+            <tr>
+                <td>
+                    {% for projetoEnviado in projetosEnviados %}
+                        {% if projetoAvaliado.projetoEnviado == projetoEnviado.id %}
+                                <div>
+                                    {{ projeto.nome }}
+                                </div>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{projetoAvaliado.dataAvaliacao}}</td>
+                <td>{{projetoAvaliado.nota}}</td>
+                <td>
+                    {% for avaliador in avaliadores %}
+                        {% for avi in projetoAvaliado.avaliador %}
+                            {% if avi == avaliador.id %}
+                                <div>
+                                    {{ avaliador.nome }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{% url 'deletarProjetoAvaliado' projetoAvaliado.id %}"
+                       onclick="return confirm('Deseja cancelar a avaliação?')"
+                       class="button-apagar">Apagar</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

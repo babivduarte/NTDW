@@ -49,5 +49,6 @@ urlpatterns = [
     path('deletarProjetoEnviado/<int:id>', views.deleteProjetoEnviado, name='deletarProjetoEnviado'),
 
     path('avaliarProjeto/', views.avaliarProjeto, name='avaliarProjeto'),
-    path('projetosAvaliados/', views.projetosAvaliados, name='projetosAvaliados')
+    path('projetosAvaliados/', views.projetosAvaliados, name='projetosAvaliados'),
+    path('deletarProjetoAvaliado/<int:id>', views.projetosAvaliados, name='deletarProjetoAvaliado')
 ]

@@ -52,6 +52,9 @@ class EnviarProjeto(models.Model):
     dataEnvio = models.DateField()
     projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.projeto
+
 
 class AvaliarProjeto(models.Model):
     parecer = models.CharField(max_length=100)
