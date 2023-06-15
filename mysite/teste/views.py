@@ -508,9 +508,16 @@ def deleteProjetoEnviado(request, id):
 def projetosAvaliados(request):
     client = coreapi.Client()
     schema = client.get("http://127.0.0.1:8000/teste/docs")
+    
+    action = ["projetos", "list"]
+    result_projetos = client.action(schema, action)
 
+    action = ["avaliadores", "list"]
+    result_avaliadores = client.action(schema, action)
+    
     action = ["projetos_enviados", "list"]
     result = client.action(schema, action)
+    
     action = ["projetos_avaliados", "list"]
     result_avaliados = client.action(schema, action)
 
@@ -518,7 +525,7 @@ def projetosAvaliados(request):
     for projeto in result_avaliados:
         projeto['dataAvaliacao'] = datetime.strptime(projeto['dataAvaliacao'], "%Y-%m-%d").strftime("%d/%m/%Y")
 
-    return render(request, 'Projeto/projetos_avaliados.html', {'projetosEnviados': result, 'projetosAvaliados': result_avaliados})
+    return render(request, 'Projeto/projetos_avaliados.html', {'projetosEnviados': result, 'projetosAvaliados': result_avaliados, 'projetos': result_projetos, 'avaliadores': result_avaliadores})
 
 def deleteProjetoAvaliado(request, id):
     client = coreapi.Client()
