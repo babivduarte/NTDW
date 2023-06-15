@@ -24,9 +24,13 @@
                 <td>
                     {% for projetoEnviado in projetosEnviados %}
                         {% if projetoAvaliado.projetoEnviado == projetoEnviado.id %}
-                                <div>
-                                    {{ projeto.nome }}
-                                </div>
+                            {% for projeto in projetos %}
+                                {% if projeto.id == projetoEnviado.projeto %}
+                                    <div>
+                                        {{ projeto.nome }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endfor %}
                 </td>
