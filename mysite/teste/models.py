@@ -52,13 +52,12 @@ class EnviarProjeto(models.Model):
     dataEnvio = models.DateField()
     projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.projeto
-
 
 class AvaliarProjeto(models.Model):
     parecer = models.CharField(max_length=100)
     nota = models.DecimalField(max_digits=4,decimal_places=2)
     dataAvaliacao = models.DateField()
     avaliador = models.ManyToManyField(Avaliador)
-    projetoEnviado = models.ForeignKey(EnviarProjeto, on_delete=models.CASCADE)
+    projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE)
+
+

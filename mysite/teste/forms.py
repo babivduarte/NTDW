@@ -1,5 +1,6 @@
 from django.forms import ModelForm
 from .models import *
+from django import forms
 
 class AutorForm(ModelForm):
     class Meta:
@@ -32,6 +33,12 @@ class EnviarProjetoForm(ModelForm):
         fields = "__all__"
 
 class AvaliarProjetoForm(ModelForm):
+    projeto = forms.ModelChoiceField(
+        queryset=Projeto.objects.all(),
+        label='Projeto',
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        empty_label=None,
+    )
     class Meta:
         model = AvaliarProjeto
-        fields = "__all__"
+        fields = ['parecer', 'nota', 'avaliador','projeto']

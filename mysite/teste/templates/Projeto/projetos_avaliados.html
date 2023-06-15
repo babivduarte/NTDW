@@ -12,9 +12,10 @@
             <thead>
             <tr>
                 <th scope="col">Projeto</th>
-                <th scope="col">Data Envio</th>
+                <th scope="col">Data Avaliação</th>
                 <th scope="col">Nota</th>
-                <th scope="col">Avaliador</th>
+                <th scope="col">Parecer</th>
+                <th scope="col">Avaliadores</th>
                 <th></th>
             </tr>
             </thead>
@@ -22,29 +23,27 @@
             {% for projetoAvaliado in projetosAvaliados %}
             <tr>
                 <td>
-                    {% for projetoEnviado in projetosEnviados %}
-                        {% if projetoAvaliado.projetoEnviado == projetoEnviado.id %}
-                            {% for projeto in projetos %}
-                                {% if projeto.id == projetoEnviado.projeto %}
-                                    <div>
-                                        {{ projeto.nome }}
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
+                    {% for projeto in projetos %}
+                        {% if projeto.id == projetoAvaliado.projeto %}
+                            <div>
+                                <a href="{% url 'alterarProjetoAvaliado' projetoAvaliado.id %}"> {{ projeto.nome }} </a>
+                            </div>
                         {% endif %}
                     {% endfor %}
+
                 </td>
                 <td>{{projetoAvaliado.dataAvaliacao}}</td>
                 <td>{{projetoAvaliado.nota}}</td>
+                <td>{{projetoAvaliado.parecer}}</td>
                 <td>
                     {% for avaliador in avaliadores %}
-                        {% for avi in projetoAvaliado.avaliador %}
-                            {% if avi == avaliador.id %}
-                                <div>
-                                    {{ avaliador.nome }}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
+                    {% for avi in projetoAvaliado.avaliador %}
+                    {% if avi == avaliador.id %}
+                    <div>
+                        {{ avaliador.nome }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
                     {% endfor %}
                 </td>
                 <td>

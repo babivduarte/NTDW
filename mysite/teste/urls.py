@@ -50,5 +50,6 @@ urlpatterns = [
 
     path('avaliarProjeto/', views.avaliarProjeto, name='avaliarProjeto'),
     path('projetosAvaliados/', views.projetosAvaliados, name='projetosAvaliados'),
-    path('deletarProjetoAvaliado/<int:id>', views.projetosAvaliados, name='deletarProjetoAvaliado')
+    path('deletarProjetoAvaliado/<int:id>', views.deletarProjetoAvaliado, name='deletarProjetoAvaliado'),
+    path('alterarProjetoAvaliado/<int:id>', views.alterarProjetoAvaliado, name='alterarProjetoAvaliado')
 ]

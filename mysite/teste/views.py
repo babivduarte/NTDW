@@ -515,19 +515,19 @@ def projetosAvaliados(request):
     action = ["avaliadores", "list"]
     result_avaliadores = client.action(schema, action)
     
-    action = ["projetos_enviados", "list"]
-    result = client.action(schema, action)
-    
     action = ["projetos_avaliados", "list"]
     result_avaliados = client.action(schema, action)
+
+    # Ordenar os projetos avaliados pela maior nota
+    result_avaliados.sort(key=lambda x: x['nota'], reverse=False)
 
     # formatar a data
     for projeto in result_avaliados:
         projeto['dataAvaliacao'] = datetime.strptime(projeto['dataAvaliacao'], "%Y-%m-%d").strftime("%d/%m/%Y")
 
-    return render(request, 'Projeto/projetos_avaliados.html', {'projetosEnviados': result, 'projetosAvaliados': result_avaliados, 'projetos': result_projetos, 'avaliadores': result_avaliadores})
+    return render(request, 'Projeto/projetos_avaliados.html', {'projetosAvaliados': result_avaliados, 'projetos': result_projetos, 'avaliadores': result_avaliadores})
 
-def deleteProjetoAvaliado(request, id):
+def deletarProjetoAvaliado(request, id):
     client = coreapi.Client()
     schema = client.get("http://127.0.0.1:8000/teste/docs/")
 
@@ -554,9 +554,9 @@ def avaliarProjeto(request):
             action = ["projetos_avaliados", "create"]
             params = {
                 "parecer": form.cleaned_data['parecer'],
-                "nota": str(form.cleaned_data['nota']),
-                "dataAvaliacao": form.cleaned_data['dataAvaliacao'].isoformat(),
-                "projetoEnviado": form.cleaned_data['projetoEnviado'].id,
+                "nota": float(form.cleaned_data['nota']),
+                "dataAvaliacao": datetime.now().strftime('%Y-%m-%d'),
+                "projeto": form.cleaned_data['projeto'].id,
                 "avaliador": avaliadores,
             }
             client.action(schema, action, params=params)
@@ -564,5 +564,32 @@ def avaliarProjeto(request):
     elif request.method == 'GET':
         return render(request, 'Projeto/avaliar_projeto.html', {'form': form})
 
+def alterarProjetoAvaliado(request, id):
+    projetoAvaliado = AvaliarProjeto.objects.get(id=id)
+    form = AvaliarProjetoForm(instance=projetoAvaliado)
+    if request.method == 'GET':
+        return render(request, 'Projeto/alterar_projeto_avaliado.html', {'form': form, 'projetoAvaliado': projetoAvaliado})
+    elif request.method == 'POST':
+        form = AvaliarProjetoForm(request.POST, instance=projetoAvaliado)
+        if form.is_valid():
+            client = coreapi.Client()
+            schema = client.get("http://127.0.0.1:8000/teste/docs")
 
+            # salvar avaliadores
+            avaliadores = []
+            for avaliador in form.cleaned_data['avaliador']:
+                avaliadores.append(avaliador.id)
 
+            action = ["projetos_avaliados", "update"]
+            params = {
+                "id": id,
+                "parecer": form.cleaned_data['parecer'],
+                "nota": float(form.cleaned_data['nota']),
+                "dataAvaliacao": datetime.now().strftime('%Y-%m-%d'),
+                "projeto": form.cleaned_data['projeto'].id,
+                "avaliador": avaliadores,
+            }
+            client.action(schema, action, params=params)
+        return redirect('projetosAvaliados')
+    elif request.method == 'GET':
+        return render(request, 'Projeto/avaliar_projeto.html', {'form': form, 'projetoAvaliado': projetoAvaliado})
